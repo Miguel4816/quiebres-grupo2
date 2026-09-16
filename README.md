@@ -4,4 +4,3 @@ docker compose build
 docker compose up -d
 docker compose run --rm simulador python 2_simulador.py historico 60
 docker compose run --rm --no-deps procesar python 4_procesar.py
-

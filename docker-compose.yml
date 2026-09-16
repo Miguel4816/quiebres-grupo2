@@ -66,3 +66,17 @@ services:
       ingesta: {condition: service_completed_successfully}
     restart: unless-stopped
 
+  api:
+    <<: *app
+    container_name: proyecto-api
+    command: uvicorn 5_api:app --host 0.0.0.0 --port 8000
+    ports: ["8000:8000"]
+    restart: unless-stopped
+
+  panel:
+    <<: *app
+    container_name: proyecto-panel
+    command: streamlit run 6_panel.py --server.port 8501 --server.address 0.0.0.0
+    ports: ["8501:8501"]
+    depends_on: [api]
+    restart: unless-stopped
