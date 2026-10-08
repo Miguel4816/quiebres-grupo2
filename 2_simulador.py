@@ -113,6 +113,7 @@ def plan_del_dia(productos, fecha, factores, almacen):
                 ventas.extend(ensuciar(crear_venta(p, t["tienda_id"], vendidas, hora)))
 
             queda = almacen.stock[(p["sku"], t["tienda_id"])]
+            no_atendidas = pedidas - vendidas
             inventario.append({
                 "fecha": fecha.isoformat(),
                 "tienda_id": t["tienda_id"],
@@ -120,6 +121,10 @@ def plan_del_dia(productos, fecha, factores, almacen):
                 "stock": queda,
                 "en_camino": almacen.en_camino(p["sku"], t["tienda_id"]),
                 "quiebre": queda <= 0,
+                "demanda": pedidas,
+                "vendidas": vendidas,
+                "no_atendidas": no_atendidas,
+                "valor_no_atendido": round(no_atendidas * float(p["price"]), 2),
             })
     return ventas, inventario
 
